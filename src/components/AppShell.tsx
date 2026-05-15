@@ -116,13 +116,9 @@ export function AppShell({ children, title, subtitle }: { children: ReactNode; t
         </header>
 
         <main className="flex-1 px-6 py-8 lg:px-10">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
+          <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
             {children}
-          </motion.div>
+          </div>
         </main>
 
         {/* Mobile bottom nav */}
