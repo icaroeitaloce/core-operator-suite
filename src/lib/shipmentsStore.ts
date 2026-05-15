@@ -51,7 +51,7 @@ function write(list: Shipment[]) {
   window.dispatchEvent(new CustomEvent(EVT));
 }
 
-export function addShipment(input: { name: string; number: string; qty: number }): Shipment {
+export function addShipment(input: { name: string; number: string; qty: number; sourceId?: string; status?: Shipment["status"] }): Shipment {
   const s: Shipment = {
     id: `s-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
     name: input.name,
@@ -59,7 +59,8 @@ export function addShipment(input: { name: string; number: string; qty: number }
     qty: input.qty,
     total: priceFor(input.qty),
     createdAt: Date.now(),
-    status: "Enviado",
+    status: input.status ?? "Enviado",
+    sourceId: input.sourceId,
   };
   const list = [s, ...read()];
   write(list);
