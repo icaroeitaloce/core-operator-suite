@@ -44,7 +44,7 @@ function Financeiro() {
     }
     for (const m of manuals) {
       const dt = new Date(m.createdAt);
-      if (m.type === "in") md[dt.getMonth()].bruto += m.amount;
+      md[dt.getMonth()].bruto += m.type === "in" ? m.amount : -m.amount;
     }
     return { grossShipments, grossTotal, units, profit, manualIn, manualOut, netCash, monthData: md, monthGross };
   }, [shipments, manuals]);
