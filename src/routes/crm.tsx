@@ -231,7 +231,7 @@ function CRMPage() {
       
         {qr && !waState.connected && (
           <div
-            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+            
             className="mb-6 glass-card flex flex-col items-center gap-3 rounded-2xl p-6 sm:flex-row"
           >
             <img src={qr.startsWith("data:") ? qr : `data:image/png;base64,${qr}`} alt="QR" className="h-48 w-48 rounded-xl bg-white p-2" />
