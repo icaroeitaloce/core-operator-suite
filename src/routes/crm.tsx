@@ -18,7 +18,7 @@ export const Route = createFileRoute("/crm")({
   component: CRMPage,
 });
 
-type Card = { id: string; name: string; number: string; note?: string; createdAt: number };
+type Card = { id: string; name: string; number: string; note?: string; createdAt: number; conversationId?: number };
 type ColumnKey = "to_send" | "sent" | "to_charge";
 
 const COLUMNS: { key: ColumnKey; title: string; subtitle: string; icon: any; accent: string }[] = [
