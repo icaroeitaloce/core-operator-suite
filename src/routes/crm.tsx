@@ -282,10 +282,6 @@ function CRMPage() {
                   {cards.map((c) => (
                     <div
                       key={c.id}
-                      layout
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
                       draggable
                       onDragStart={() => onDragStart(c.id, col.key)}
                       onDragEnd={() => { setDragging(null); setOverCol(null); }}
