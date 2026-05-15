@@ -5,6 +5,7 @@ export const CHATWOOT_LABELS = {
   to_send: "pedido-a-enviar",
   sent: "pedido-enviado",
   to_charge: "pedido-a-cobrar",
+  paid: "pedido-pago",
 } as const;
 
 type ColumnKey = keyof typeof CHATWOOT_LABELS;
@@ -59,6 +60,7 @@ export const fetchChatwootBoard = createServerFn({ method: "GET" }).handler(asyn
     to_send: [],
     sent: [],
     to_charge: [],
+    paid: [],
   };
 
   for (const [col, label] of Object.entries(CHATWOOT_LABELS) as [ColumnKey, string][]) {
@@ -90,8 +92,8 @@ export const moveConversationLabel = createServerFn({ method: "POST" })
   .inputValidator(
     z.object({
       conversationId: z.number(),
-      from: z.enum(["to_send", "sent", "to_charge"]).nullable(),
-      to: z.enum(["to_send", "sent", "to_charge"]),
+      from: z.enum(["to_send", "sent", "to_charge", "paid"]).nullable(),
+      to: z.enum(["to_send", "sent", "to_charge", "paid"]),
     })
   )
   .handler(async ({ data }) => {
