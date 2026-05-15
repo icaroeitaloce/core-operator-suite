@@ -135,7 +135,7 @@ function CRMPage() {
       const remote = await cwBoardFn();
       // Merge: keep local-only cards (no conversationId), replace Chatwoot ones
       setBoard((b) => {
-        const out: Record<ColumnKey, Card[]> = { to_send: [], sent: [], to_charge: [] };
+        const out: Record<ColumnKey, Card[]> = { to_send: [], sent: [], to_charge: [], paid: [] };
         (Object.keys(out) as ColumnKey[]).forEach((k) => {
           const local = b[k].filter((c) => !c.conversationId);
           out[k] = [...remote[k], ...local];
