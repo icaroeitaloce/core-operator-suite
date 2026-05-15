@@ -55,13 +55,14 @@ export function PanelCard({
   );
 }
 
-export function StatusBadge({ status }: { status: "Entregue" | "Em rota" | "Coletando" | "Pendente" | "Atrasado" }) {
+export function StatusBadge({ status }: { status: "Entregue" | "Em rota" | "Coletando" | "Pendente" | "Atrasado" | "Pago" }) {
   const map: Record<string, string> = {
     "Entregue": "bg-success/15 text-success ring-success/30",
     "Em rota": "bg-gold/15 text-gold ring-gold/30",
     "Coletando": "bg-accent text-accent-foreground ring-border",
     "Pendente": "bg-warning/15 text-warning ring-warning/30",
     "Atrasado": "bg-destructive/15 text-destructive ring-destructive/30",
+    "Pago": "bg-success/15 text-success ring-success/30",
   };
   return (
     <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium ring-1 ${map[status]}`}>
