@@ -13,7 +13,7 @@ import {
 import {
   fetchChatwootBoard, moveConversationLabel, testChatwootConnection,
 } from "@/lib/chatwoot.functions";
-import { addShipment, priceFor, formatBRL } from "@/lib/shipmentsStore";
+import { addShipment, priceFor, formatBRL, hasShipmentFor, markPaid } from "@/lib/shipmentsStore";
 
 export const Route = createFileRoute("/crm")({
   component: CRMPage,
