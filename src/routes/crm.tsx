@@ -4,12 +4,15 @@ import { useEffect, useMemo, useState, DragEvent } from "react";
 
 import {
   PackageCheck, Send, Receipt, Plus, Smartphone, RefreshCw,
-  CheckCircle2, AlertCircle, Search, Phone, User, Trash2, Download,
+  CheckCircle2, AlertCircle, Search, Phone, User, Trash2, Download, Tag,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import {
   getInstanceStatus, connectInstance, logoutInstance, fetchContacts,
 } from "@/lib/evolution.functions";
+import {
+  fetchChatwootBoard, moveConversationLabel, testChatwootConnection,
+} from "@/lib/chatwoot.functions";
 
 export const Route = createFileRoute("/crm")({
   component: CRMPage,
