@@ -149,6 +149,34 @@ function CRMPage() {
     }
   };
 
+  // Auto-sync Chatwoot continuously
+  useEffect(() => {
+    let alive = true;
+    const tick = async () => {
+      try {
+        const test = await cwTestFn();
+        if (!alive) return;
+        if (!test.ok) { setCwState({ ok: false, error: test.error }); return; }
+        setCwState({ ok: true });
+        const remote = await cwBoardFn();
+        if (!alive) return;
+        setBoard((b) => {
+          const out: Record<ColumnKey, Card[]> = { to_send: [], sent: [], to_charge: [], paid: [] };
+          (Object.keys(out) as ColumnKey[]).forEach((k) => {
+            const local = b[k].filter((c) => !c.conversationId);
+            out[k] = [...remote[k], ...local];
+          });
+          return out;
+        });
+      } catch (e: any) {
+        if (alive) setCwState({ ok: false, error: e.message });
+      }
+    };
+    tick();
+    const id = setInterval(tick, 15000);
+    return () => { alive = false; clearInterval(id); };
+  }, [cwBoardFn, cwTestFn]);
+
   const onDrop = (to: ColumnKey) => {
     if (!dragging) return;
     const from = dragging.from;
