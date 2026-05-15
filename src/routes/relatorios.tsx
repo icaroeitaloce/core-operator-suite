@@ -8,15 +8,8 @@ export const Route = createFileRoute("/relatorios")({
   component: Relatorios,
 });
 
-const compare = [
-  { m: "Jan", atual: 42000, anterior: 31000 },
-  { m: "Fev", atual: 48500, anterior: 35000 },
-  { m: "Mar", atual: 52000, anterior: 39000 },
-  { m: "Abr", atual: 58200, anterior: 41200 },
-  { m: "Mai", atual: 64800, anterior: 45800 },
-  { m: "Jun", atual: 71200, anterior: 50100 },
-  { m: "Jul", atual: 78500, anterior: 56300 },
-];
+const compare: { m: string; atual: number; anterior: number }[] = [];
+
 
 const reports = [
   { t: "Relatório financeiro mensal",       desc: "Entradas, saídas e lucro consolidado", icon: FileText },

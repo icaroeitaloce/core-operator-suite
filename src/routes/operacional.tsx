@@ -64,12 +64,7 @@ function Operacional() {
 
         <PanelCard title="Notificações" action={<Bell className="h-4 w-4 text-gold" />}>
           <ul className="space-y-3">
-            {[
-              "Pagamento recebido: R$ 4.820,00",
-              "Novo pedido criado: ENV-2842",
-              "Cliente respondeu: Mercantil Sul",
-              "Backup diário concluído com sucesso",
-            ].map((n, i) => (
+            {[].map((n, i) => (
               <li key={i} className="flex gap-3 rounded-xl border border-border/40 bg-input/30 p-3">
                 <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-gold" />
                 <p className="text-sm text-foreground/90">{n}</p>
