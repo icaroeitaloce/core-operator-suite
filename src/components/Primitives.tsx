@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { ReactNode } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
