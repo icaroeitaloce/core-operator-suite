@@ -255,16 +255,37 @@ function CRMPage() {
           </div>
         </div>
 
-        <div className="glass-card rounded-2xl p-5">
-          <p className="text-xs uppercase tracking-wider text-muted-foreground">Total de cards</p>
-          <p className="mt-2 font-display text-3xl text-foreground">
-            {board.to_send.length + board.sent.length + board.to_charge.length}
-          </p>
+        <div className="glass-card rounded-2xl p-5 flex flex-col">
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <p className="text-xs uppercase tracking-wider text-muted-foreground">Total de cards</p>
+              <p className="mt-2 font-display text-3xl text-foreground">
+                {board.to_send.length + board.sent.length + board.to_charge.length}
+              </p>
+            </div>
+            <button
+              onClick={syncChatwoot}
+              disabled={cwSyncing}
+              title="Sincronizar com Chatwoot"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-input/40 px-2.5 py-1.5 text-[11px] text-muted-foreground hover:text-gold disabled:opacity-50"
+            >
+              <Tag className={`h-3.5 w-3.5 ${cwSyncing ? "animate-pulse" : ""}`} />
+              {cwSyncing ? "Sincronizando..." : "Sync Chatwoot"}
+            </button>
+          </div>
           <div className="mt-2 flex gap-3 text-[11px] text-muted-foreground">
             <span>A enviar <b className="text-gold">{board.to_send.length}</b></span>
             <span>Enviados <b className="text-success">{board.sent.length}</b></span>
             <span>A cobrar <b className="text-warning">{board.to_charge.length}</b></span>
           </div>
+          {cwState && !cwState.ok && (
+            <p className="mt-2 text-[10px] text-destructive truncate" title={cwState.error}>
+              Chatwoot: {cwState.error}
+            </p>
+          )}
+          {cwState?.ok && (
+            <p className="mt-2 text-[10px] text-success">Chatwoot conectado</p>
+          )}
         </div>
       </div>
 
