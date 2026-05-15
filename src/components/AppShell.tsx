@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
   LayoutDashboard, Wallet, Truck, FileBarChart2, CalendarCheck,
-  Bell, Search, LogOut, Settings,
+  Bell, Search, LogOut, Settings, KanbanSquare,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { ReactNode } from "react";
