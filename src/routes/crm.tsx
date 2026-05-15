@@ -13,6 +13,7 @@ import {
 import {
   fetchChatwootBoard, moveConversationLabel, testChatwootConnection,
 } from "@/lib/chatwoot.functions";
+import { addShipment, priceFor, formatBRL } from "@/lib/shipmentsStore";
 
 export const Route = createFileRoute("/crm")({
   component: CRMPage,
@@ -159,6 +160,21 @@ function CRMPage() {
         cwMoveFn({ data: { conversationId: card.conversationId, from, to } }).catch((e) =>
           console.error("Chatwoot label sync failed:", e)
         );
+      }
+      // Auto-register shipment when moving to "sent"
+      if (to === "sent" && from !== "sent") {
+        const raw = window.prompt(
+          `Quantas unidades enviadas para ${card.name}?\n(1 un = R$ 48,90 · 2 un = R$ 87,90)`,
+          "1"
+        );
+        const qty = Math.max(1, parseInt(raw || "1", 10) || 1);
+        const total = priceFor(qty);
+        addShipment({ name: card.name, number: card.number, qty });
+        // brief feedback
+        setTimeout(() => {
+          // non-blocking
+          console.info(`Envio registrado: ${qty}× = ${formatBRL(total)}`);
+        }, 0);
       }
       return {
         ...b,
