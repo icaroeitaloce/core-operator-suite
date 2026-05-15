@@ -17,12 +17,9 @@ export function StatCard({
     : "bg-muted text-muted-foreground ring-border";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay }}
-      whileHover={{ y: -3 }}
-      className="group relative overflow-hidden rounded-2xl glass-card p-6"
+    <div
+      style={{ animationDelay: `${delay}s` }}
+      className="group relative overflow-hidden rounded-2xl glass-card p-6 transition hover:-translate-y-0.5 animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both"
     >
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent opacity-0 transition group-hover:opacity-100" />
       <div className="flex items-start justify-between">
@@ -40,7 +37,7 @@ export function StatCard({
           <Icon className="h-5 w-5" />
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
