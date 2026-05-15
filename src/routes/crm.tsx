@@ -164,19 +164,30 @@ function CRMPage() {
         );
       }
       // Auto-register shipment when moving to "sent"
-      if (to === "sent" && from !== "sent") {
+      if (to === "sent" && from !== "sent" && !hasShipmentFor(card.id)) {
         const raw = window.prompt(
           `Quantas unidades enviadas para ${card.name}?\n(1 un = R$ 48,90 · 2 un = R$ 87,90)`,
           "1"
         );
         const qty = Math.max(1, parseInt(raw || "1", 10) || 1);
         const total = priceFor(qty);
-        addShipment({ name: card.name, number: card.number, qty });
-        // brief feedback
-        setTimeout(() => {
-          // non-blocking
-          console.info(`Envio registrado: ${qty}× = ${formatBRL(total)}`);
-        }, 0);
+        addShipment({ name: card.name, number: card.number, qty, sourceId: card.id });
+        setTimeout(() => console.info(`Envio registrado: ${qty}× = ${formatBRL(total)}`), 0);
+      }
+      // Auto-register payment when moving to "paid"
+      if (to === "paid" && from !== "paid") {
+        if (hasShipmentFor(card.id)) {
+          markPaid(card.id);
+        } else {
+          const raw = window.prompt(
+            `Quantas unidades pagas por ${card.name}?\n(1 un = R$ 48,90 · 2 un = R$ 87,90)`,
+            "1"
+          );
+          const qty = Math.max(1, parseInt(raw || "1", 10) || 1);
+          const total = priceFor(qty);
+          addShipment({ name: card.name, number: card.number, qty, sourceId: card.id, status: "Pago" });
+          setTimeout(() => console.info(`Pagamento registrado: ${qty}× = ${formatBRL(total)}`), 0);
+        }
       }
       return {
         ...b,
