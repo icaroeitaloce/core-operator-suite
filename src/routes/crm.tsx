@@ -30,17 +30,9 @@ const COLUMNS: { key: ColumnKey; title: string; subtitle: string; icon: any; acc
 const STORAGE_KEY = "crm-board-v1";
 
 const SEED: Record<ColumnKey, Card[]> = {
-  to_send: [
-    { id: "c1", name: "Carlos Mendes", number: "5511988887777", note: "Pedido #2841 · 3 itens", createdAt: Date.now() - 8.6e7 },
-    { id: "c2", name: "Joana Ribeiro", number: "5511977776666", note: "Pedido #2842 · urgente", createdAt: Date.now() - 6.4e7 },
-  ],
-  sent: [
-    { id: "c3", name: "Atacadão Premium", number: "5521966665555", note: "Pedido #2840 · entregue", createdAt: Date.now() - 1.7e8 },
-  ],
-  to_charge: [
-    { id: "c4", name: "Mercantil Sul",  number: "5151955554444", note: "R$ 7.640 · vencido 2d", createdAt: Date.now() - 2.5e8 },
-    { id: "c5", name: "Comercial Aurora", number: "3199944443333", note: "R$ 3.980 · vence 18/05", createdAt: Date.now() - 1.2e8 },
-  ],
+  to_send: [],
+  sent: [],
+  to_charge: [],
 };
 
 function CRMPage() {
