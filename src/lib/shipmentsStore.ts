@@ -7,8 +7,18 @@ export type Shipment = {
   qty: number;
   total: number;
   createdAt: number;
-  status: "Enviado" | "Entregue";
+  status: "Enviado" | "Entregue" | "Pago";
+  sourceId?: string;
 };
+
+export function hasShipmentFor(sourceId: string): boolean {
+  return read().some((s) => s.sourceId === sourceId);
+}
+
+export function markPaid(sourceId: string) {
+  const list = read().map((s) => (s.sourceId === sourceId ? { ...s, status: "Pago" as const } : s));
+  write(list);
+}
 
 const KEY = "shipments-v1";
 const EVT = "shipments:changed";
