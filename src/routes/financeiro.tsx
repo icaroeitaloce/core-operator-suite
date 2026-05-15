@@ -81,7 +81,7 @@ function Financeiro() {
                     <td className="py-3 text-muted-foreground">{new Date(s.createdAt).toLocaleDateString("pt-BR")}</td>
                     <td className="py-3">{s.name}</td>
                     <td className="py-3 font-mono text-gold">{s.qty}×</td>
-                    <td className="py-3"><StatusBadge status="Entregue" /></td>
+                    <td className="py-3"><StatusBadge status={s.status === "Pago" ? "Entregue" : "Entregue"} /></td>
                     <td className="py-3 text-right font-mono tabular-nums text-success">+ {formatBRL(s.total)}</td>
                   </tr>
                 ))}
