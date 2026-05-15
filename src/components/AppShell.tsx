@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
   LayoutDashboard, Wallet, Truck, FileBarChart2, CalendarCheck,
-  Bell, Search, LogOut, Settings,
+  Bell, Search, LogOut, Settings, KanbanSquare,
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { ReactNode } from "react";
@@ -11,6 +11,7 @@ const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/financeiro", label: "Financeiro", icon: Wallet },
   { to: "/logistica", label: "Logística", icon: Truck },
+  { to: "/crm", label: "CRM Pedidos", icon: KanbanSquare },
   { to: "/relatorios", label: "Relatórios", icon: FileBarChart2 },
   { to: "/operacional", label: "Operacional", icon: CalendarCheck },
 ] as const;
