@@ -342,8 +342,7 @@ function CRMPage() {
             onClick={() => setContactDrawer(false)}
           >
             <div
-              initial={{ x: 400 }} animate={{ x: 0 }} exit={{ x: 400 }}
-              transition={{ type: "spring", damping: 24 }}
+              
               onClick={(e) => e.stopPropagation()}
               className="flex h-full w-full max-w-md flex-col border-l border-border bg-card"
             >
