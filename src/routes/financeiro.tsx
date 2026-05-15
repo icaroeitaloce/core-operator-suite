@@ -28,8 +28,8 @@ function Financeiro() {
     const profit = units * PROFIT_PER_UNIT;
     const manualIn = manuals.filter((m) => m.type === "in").reduce((s, m) => s + m.amount, 0);
     const manualOut = manuals.filter((m) => m.type === "out").reduce((s, m) => s + m.amount, 0);
-    const grossTotal = grossShipments + manualIn;
-    const netCash = grossTotal - manualOut;
+    const grossTotal = grossShipments + manualIn - manualOut;
+    const netCash = grossTotal;
 
     const now = new Date();
     const md = MONTHS.map((m) => ({ m, bruto: 0, lucro: 0 }));
