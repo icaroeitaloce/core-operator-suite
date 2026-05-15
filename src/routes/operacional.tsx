@@ -8,26 +8,12 @@ export const Route = createFileRoute("/operacional")({
   component: Operacional,
 });
 
-const initialTasks = [
-  { t: "Conferir notas fiscais do dia", done: false, prio: "alta" },
-  { t: "Ligar para Mercantil Sul (cobrança)", done: false, prio: "alta" },
-  { t: "Atualizar planilha de combustível", done: true, prio: "média" },
-  { t: "Reunião com fornecedor de embalagens", done: false, prio: "média" },
-  { t: "Conferir manutenção VW-3402", done: true, prio: "baixa" },
-];
+const initialTasks: { t: string; done: boolean; prio: string }[] = [];
 
-const agenda = [
-  { d: "Hoje · 14:00",  t: "Reunião sócios",        loc: "Sala de reuniões" },
-  { d: "Hoje · 16:30",  t: "Coleta Distribuidora Norte", loc: "Galpão A" },
-  { d: "Amanhã · 09:00", t: "Auditoria fiscal",      loc: "Escritório" },
-  { d: "Amanhã · 15:00", t: "Entrega prioridade RJ", loc: "Centro RJ" },
-];
+const agenda: { d: string; t: string; loc: string }[] = [];
 
-const notes = [
-  "Renegociar contrato com transportadora parceira até fim do mês.",
-  "Verificar disponibilidade de novo galpão em Campinas.",
-  "Atualizar política de prazos para clientes do Sul.",
-];
+const notes: string[] = [];
+
 
 function Operacional() {
   const [tasks, setTasks] = useState(initialTasks);
