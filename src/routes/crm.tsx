@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState, DragEvent } from "react";
 
 import {
   PackageCheck, Send, Receipt, Plus, Smartphone, RefreshCw,
-  CheckCircle2, AlertCircle, Search, Phone, User, Trash2, Download, Tag,
+  CheckCircle2, AlertCircle, Search, Phone, User, Trash2, Download, Tag, BadgeCheck,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import {
@@ -20,20 +20,22 @@ export const Route = createFileRoute("/crm")({
 });
 
 type Card = { id: string; name: string; number: string; note?: string; createdAt: number; conversationId?: number };
-type ColumnKey = "to_send" | "sent" | "to_charge";
+type ColumnKey = "to_send" | "sent" | "to_charge" | "paid";
 
 const COLUMNS: { key: ColumnKey; title: string; subtitle: string; icon: any; accent: string }[] = [
-  { key: "to_send",   title: "Pedidos a serem enviados", subtitle: "Aguardando despacho",  icon: PackageCheck, accent: "gold"   },
-  { key: "sent",      title: "Pedidos enviados",          subtitle: "Em rota / entregues",  icon: Send,         accent: "green"  },
-  { key: "to_charge", title: "Pedidos a cobrar",          subtitle: "Aguardando pagamento", icon: Receipt,      accent: "warn"   },
+  { key: "to_send",   title: "Pedidos a serem enviados", subtitle: "Aguardando despacho",   icon: PackageCheck, accent: "gold"   },
+  { key: "sent",      title: "Pedidos enviados",          subtitle: "Em rota / entregues",   icon: Send,         accent: "green"  },
+  { key: "to_charge", title: "Pedidos a cobrar",          subtitle: "Aguardando pagamento",  icon: Receipt,      accent: "warn"   },
+  { key: "paid",      title: "Pagos",                     subtitle: "Confirmados no relatório", icon: BadgeCheck, accent: "green" },
 ];
 
-const STORAGE_KEY = "crm-board-v1";
+const STORAGE_KEY = "crm-board-v2";
 
 const SEED: Record<ColumnKey, Card[]> = {
   to_send: [],
   sent: [],
   to_charge: [],
+  paid: [],
 };
 
 function CRMPage() {
