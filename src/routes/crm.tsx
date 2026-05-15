@@ -56,6 +56,13 @@ function CRMPage() {
   const logoutFn  = useServerFn(logoutInstance);
   const contactsFn = useServerFn(fetchContacts);
 
+  // Chatwoot
+  const cwBoardFn = useServerFn(fetchChatwootBoard);
+  const cwMoveFn = useServerFn(moveConversationLabel);
+  const cwTestFn = useServerFn(testChatwootConnection);
+  const [cwState, setCwState] = useState<{ ok: boolean; error?: string } | null>(null);
+  const [cwSyncing, setCwSyncing] = useState(false);
+
   const [waState, setWaState] = useState<{ connected: boolean; state: string; error?: string }>({ connected: false, state: "loading" });
   const [qr, setQr] = useState<string | null>(null);
   const [pairCode, setPairCode] = useState<string | null>(null);
