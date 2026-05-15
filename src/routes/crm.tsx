@@ -131,15 +131,46 @@ function CRMPage() {
     e.preventDefault();
     setOverCol(key);
   };
+  const syncChatwoot = async () => {
+    setCwSyncing(true);
+    try {
+      const test = await cwTestFn();
+      setCwState(test.ok ? { ok: true } : { ok: false, error: test.error });
+      if (!test.ok) return;
+      const remote = await cwBoardFn();
+      // Merge: keep local-only cards (no conversationId), replace Chatwoot ones
+      setBoard((b) => {
+        const out: Record<ColumnKey, Card[]> = { to_send: [], sent: [], to_charge: [] };
+        (Object.keys(out) as ColumnKey[]).forEach((k) => {
+          const local = b[k].filter((c) => !c.conversationId);
+          out[k] = [...remote[k], ...local];
+        });
+        return out;
+      });
+    } catch (e: any) {
+      setCwState({ ok: false, error: e.message });
+    } finally {
+      setCwSyncing(false);
+    }
+  };
+
   const onDrop = (to: ColumnKey) => {
     if (!dragging) return;
+    const from = dragging.from;
+    const id = dragging.id;
     setBoard((b) => {
-      if (dragging.from === to) return b;
-      const card = b[dragging.from].find((c) => c.id === dragging.id);
+      if (from === to) return b;
+      const card = b[from].find((c) => c.id === id);
       if (!card) return b;
+      // Sync label to Chatwoot if this is a Chatwoot card
+      if (card.conversationId) {
+        cwMoveFn({ data: { conversationId: card.conversationId, from, to } }).catch((e) =>
+          console.error("Chatwoot label sync failed:", e)
+        );
+      }
       return {
         ...b,
-        [dragging.from]: b[dragging.from].filter((c) => c.id !== dragging.id),
+        [from]: b[from].filter((c) => c.id !== id),
         [to]: [card, ...b[to]],
       };
     });
