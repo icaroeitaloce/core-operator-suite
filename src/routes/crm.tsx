@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useState, DragEvent } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+
 import {
   PackageCheck, Send, Receipt, Plus, Smartphone, RefreshCw,
   CheckCircle2, AlertCircle, Search, Phone, User, Trash2, Download,
@@ -228,10 +228,10 @@ function CRMPage() {
       </div>
 
       {/* QR */}
-      <AnimatePresence>
+      
         {qr && !waState.connected && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+          <div
+            
             className="mb-6 glass-card flex flex-col items-center gap-3 rounded-2xl p-6 sm:flex-row"
           >
             <img src={qr.startsWith("data:") ? qr : `data:image/png;base64,${qr}`} alt="QR" className="h-48 w-48 rounded-xl bg-white p-2" />
@@ -244,9 +244,9 @@ function CRMPage() {
                 </p>
               )}
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      
 
       {/* Board */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -278,14 +278,10 @@ function CRMPage() {
               </div>
 
               <div className="space-y-2.5 min-h-32">
-                <AnimatePresence>
+                
                   {cards.map((c) => (
-                    <motion.div
+                    <div
                       key={c.id}
-                      layout
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
                       draggable
                       onDragStart={() => onDragStart(c.id, col.key)}
                       onDragEnd={() => { setDragging(null); setOverCol(null); }}
@@ -315,9 +311,9 @@ function CRMPage() {
                           {c.note}
                         </p>
                       )}
-                    </motion.div>
+                    </div>
                   ))}
-                </AnimatePresence>
+                
 
                 {cards.length === 0 && (
                   <div className="flex h-32 items-center justify-center rounded-xl border border-dashed border-border/60 text-xs text-muted-foreground">
@@ -338,16 +334,15 @@ function CRMPage() {
       </div>
 
       {/* Contacts drawer */}
-      <AnimatePresence>
+      
         {contactDrawer && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          <div
+            
             className="fixed inset-0 z-50 flex justify-end bg-background/70 backdrop-blur-sm"
             onClick={() => setContactDrawer(false)}
           >
-            <motion.div
-              initial={{ x: 400 }} animate={{ x: 0 }} exit={{ x: 400 }}
-              transition={{ type: "spring", damping: 24 }}
+            <div
+              
               onClick={(e) => e.stopPropagation()}
               className="flex h-full w-full max-w-md flex-col border-l border-border bg-card"
             >
@@ -404,10 +399,10 @@ function CRMPage() {
               </div>
 
               <ManualAddForm onAdd={(contact, col) => addContactToColumn(contact, col)} />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         )}
-      </AnimatePresence>
+      
     </AppShell>
   );
 }
