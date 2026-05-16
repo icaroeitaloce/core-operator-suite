@@ -71,6 +71,10 @@ export function clearShipments() {
   write([]);
 }
 
+export function removeShipment(id: string) {
+  write(read().filter((s) => s.id !== id));
+}
+
 export function useShipments(): Shipment[] {
   const [list, setList] = useState<Shipment[]>([]);
   useEffect(() => {
