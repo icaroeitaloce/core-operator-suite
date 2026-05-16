@@ -72,7 +72,7 @@ export function clearShipments() {
 }
 
 export function useShipments(): Shipment[] {
-  const [list, setList] = useState<Shipment[]>(() => read());
+  const [list, setList] = useState<Shipment[]>([]);
   useEffect(() => {
     const sync = () => setList(read());
     sync();
