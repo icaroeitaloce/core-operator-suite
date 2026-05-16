@@ -91,6 +91,15 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  if (typeof window !== "undefined") {
+    const RESET_FLAG = "reset-v3";
+    if (!localStorage.getItem(RESET_FLAG)) {
+      localStorage.removeItem("shipments-v1");
+      localStorage.removeItem("manual-entries-v1");
+      localStorage.removeItem("crm-board-v2");
+      localStorage.setItem(RESET_FLAG, "1");
+    }
+  }
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
