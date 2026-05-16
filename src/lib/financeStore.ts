@@ -43,7 +43,7 @@ export function removeManualEntry(id: string) {
 }
 
 export function useManualEntries(): ManualEntry[] {
-  const [list, setList] = useState<ManualEntry[]>(() => read());
+  const [list, setList] = useState<ManualEntry[]>([]);
   useEffect(() => {
     const sync = () => setList(read());
     sync();
