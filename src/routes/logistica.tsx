@@ -48,6 +48,7 @@ function Logistica() {
                     <th className="pb-3 font-medium">Unidades</th>
                     <th className="pb-3 font-medium">Status</th>
                     <th className="pb-3 font-medium text-right">Valor</th>
+                    <th className="pb-3 font-medium text-right">Ações</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/40">
@@ -59,6 +60,18 @@ function Logistica() {
                       <td className="py-3 font-mono text-gold">{s.qty}×</td>
                       <td className="py-3"><StatusBadge status={s.status === "Pago" ? "Entregue" : "Em rota"} /></td>
                       <td className="py-3 text-right tabular-nums">{formatBRL(s.total)}</td>
+                      <td className="py-3 text-right">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => {
+                            if (confirm(`Apagar pedido de ${s.name}?`)) removeShipment(s.id);
+                          }}
+                          aria-label="Apagar pedido"
+                        >
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
