@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { StatCard, PanelCard, StatusBadge } from "@/components/Primitives";
-import { Truck, Package, CheckCircle2, Boxes } from "lucide-react";
-import { useShipments, formatBRL } from "@/lib/shipmentsStore";
+import { Truck, Package, CheckCircle2, Boxes, Trash2 } from "lucide-react";
+import { useShipments, formatBRL, removeShipment } from "@/lib/shipmentsStore";
 import { useMemo } from "react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/logistica")({
   component: Logistica,
