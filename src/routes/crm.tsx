@@ -4,15 +4,12 @@ import { useEffect, useMemo, useState, DragEvent } from "react";
 
 import {
   PackageCheck, Send, Receipt, Plus, Smartphone, RefreshCw,
-  CheckCircle2, AlertCircle, Search, Phone, User, Trash2, Download, Tag, BadgeCheck,
+  CheckCircle2, AlertCircle, Search, Phone, User, Trash2, Download, BadgeCheck,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import {
   getInstanceStatus, connectInstance, logoutInstance, fetchContacts,
 } from "@/lib/evolution.functions";
-import {
-  fetchChatwootBoard, moveConversationLabel, testChatwootConnection,
-} from "@/lib/chatwoot.functions";
 import { addShipment, priceFor, formatBRL, hasShipmentFor, markPaid } from "@/lib/shipmentsStore";
 
 export const Route = createFileRoute("/crm")({
@@ -50,13 +47,6 @@ function CRMPage() {
   const connectFn = useServerFn(connectInstance);
   const logoutFn  = useServerFn(logoutInstance);
   const contactsFn = useServerFn(fetchContacts);
-
-  // Chatwoot
-  const cwBoardFn = useServerFn(fetchChatwootBoard);
-  const cwMoveFn = useServerFn(moveConversationLabel);
-  const cwTestFn = useServerFn(testChatwootConnection);
-  const [cwState, setCwState] = useState<{ ok: boolean; error?: string } | null>(null);
-  const [cwSyncing, setCwSyncing] = useState(false);
 
   const [waState, setWaState] = useState<{ connected: boolean; state: string; error?: string }>({ connected: false, state: "loading" });
   const [qr, setQr] = useState<string | null>(null);
@@ -126,56 +116,6 @@ function CRMPage() {
     e.preventDefault();
     setOverCol(key);
   };
-  const syncChatwoot = async () => {
-    setCwSyncing(true);
-    try {
-      const test = await cwTestFn();
-      setCwState(test.ok ? { ok: true } : { ok: false, error: test.error });
-      if (!test.ok) return;
-      const remote = await cwBoardFn();
-      // Merge: keep local-only cards (no conversationId), replace Chatwoot ones
-      setBoard((b) => {
-        const out: Record<ColumnKey, Card[]> = { to_send: [], sent: [], to_charge: [], paid: [] };
-        (Object.keys(out) as ColumnKey[]).forEach((k) => {
-          const local = b[k].filter((c) => !c.conversationId);
-          out[k] = [...remote[k], ...local];
-        });
-        return out;
-      });
-    } catch (e: any) {
-      setCwState({ ok: false, error: e.message });
-    } finally {
-      setCwSyncing(false);
-    }
-  };
-
-  // Auto-sync Chatwoot continuously
-  useEffect(() => {
-    let alive = true;
-    const tick = async () => {
-      try {
-        const test = await cwTestFn();
-        if (!alive) return;
-        if (!test.ok) { setCwState({ ok: false, error: test.error }); return; }
-        setCwState({ ok: true });
-        const remote = await cwBoardFn();
-        if (!alive) return;
-        setBoard((b) => {
-          const out: Record<ColumnKey, Card[]> = { to_send: [], sent: [], to_charge: [], paid: [] };
-          (Object.keys(out) as ColumnKey[]).forEach((k) => {
-            const local = b[k].filter((c) => !c.conversationId);
-            out[k] = [...remote[k], ...local];
-          });
-          return out;
-        });
-      } catch (e: any) {
-        if (alive) setCwState({ ok: false, error: e.message });
-      }
-    };
-    tick();
-    const id = setInterval(tick, 15000);
-    return () => { alive = false; clearInterval(id); };
-  }, [cwBoardFn, cwTestFn]);
 
   const onDrop = (to: ColumnKey) => {
     if (!dragging) return;
@@ -185,12 +125,6 @@ function CRMPage() {
       if (from === to) return b;
       const card = b[from].find((c) => c.id === id);
       if (!card) return b;
-      // Sync label to Chatwoot if this is a Chatwoot card
-      if (card.conversationId) {
-        cwMoveFn({ data: { conversationId: card.conversationId, from, to } }).catch((e) =>
-          console.error("Chatwoot label sync failed:", e)
-        );
-      }
       // Auto-register shipment when moving to "sent"
       if (to === "sent" && from !== "sent" && !hasShipmentFor(card.id)) {
         const raw = window.prompt(
@@ -312,29 +246,12 @@ function CRMPage() {
                 {board.to_send.length + board.sent.length + board.to_charge.length}
               </p>
             </div>
-            <button
-              onClick={syncChatwoot}
-              disabled={cwSyncing}
-              title="Sincronizar com Chatwoot"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-input/40 px-2.5 py-1.5 text-[11px] text-muted-foreground hover:text-gold disabled:opacity-50"
-            >
-              <Tag className={`h-3.5 w-3.5 ${cwSyncing ? "animate-pulse" : ""}`} />
-              {cwSyncing ? "Sincronizando..." : "Sync Chatwoot"}
-            </button>
           </div>
           <div className="mt-2 flex gap-3 text-[11px] text-muted-foreground">
             <span>A enviar <b className="text-gold">{board.to_send.length}</b></span>
             <span>Enviados <b className="text-success">{board.sent.length}</b></span>
             <span>A cobrar <b className="text-warning">{board.to_charge.length}</b></span>
           </div>
-          {cwState && !cwState.ok && (
-            <p className="mt-2 text-[10px] text-destructive truncate" title={cwState.error}>
-              Chatwoot: {cwState.error}
-            </p>
-          )}
-          {cwState?.ok && (
-            <p className="mt-2 text-[10px] text-success">Chatwoot conectado</p>
-          )}
         </div>
       </div>
 
