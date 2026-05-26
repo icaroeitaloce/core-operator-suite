@@ -47,11 +47,6 @@ function CRMPage() {
   const connectFn = useServerFn(connectInstance);
   const logoutFn  = useServerFn(logoutInstance);
   const contactsFn = useServerFn(fetchContacts);
-
-  // Chatwoot
-  const cwBoardFn = useServerFn(fetchChatwootBoard);
-  const cwMoveFn = useServerFn(moveConversationLabel);
-  const cwTestFn = useServerFn(testChatwootConnection);
   const [cwState, setCwState] = useState<{ ok: boolean; error?: string } | null>(null);
   const [cwSyncing, setCwSyncing] = useState(false);
 
