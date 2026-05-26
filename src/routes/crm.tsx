@@ -4,15 +4,12 @@ import { useEffect, useMemo, useState, DragEvent } from "react";
 
 import {
   PackageCheck, Send, Receipt, Plus, Smartphone, RefreshCw,
-  CheckCircle2, AlertCircle, Search, Phone, User, Trash2, Download, Tag, BadgeCheck,
+  CheckCircle2, AlertCircle, Search, Phone, User, Trash2, Download, BadgeCheck,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import {
   getInstanceStatus, connectInstance, logoutInstance, fetchContacts,
 } from "@/lib/evolution.functions";
-import {
-  fetchChatwootBoard, moveConversationLabel, testChatwootConnection,
-} from "@/lib/chatwoot.functions";
 import { addShipment, priceFor, formatBRL, hasShipmentFor, markPaid } from "@/lib/shipmentsStore";
 
 export const Route = createFileRoute("/crm")({
