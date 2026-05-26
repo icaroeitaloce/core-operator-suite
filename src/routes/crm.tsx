@@ -125,12 +125,6 @@ function CRMPage() {
       if (from === to) return b;
       const card = b[from].find((c) => c.id === id);
       if (!card) return b;
-      // Sync label to Chatwoot if this is a Chatwoot card
-      if (card.conversationId) {
-        cwMoveFn({ data: { conversationId: card.conversationId, from, to } }).catch((e) =>
-          console.error("Chatwoot label sync failed:", e)
-        );
-      }
       // Auto-register shipment when moving to "sent"
       if (to === "sent" && from !== "sent" && !hasShipmentFor(card.id)) {
         const raw = window.prompt(
