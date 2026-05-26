@@ -47,8 +47,6 @@ function CRMPage() {
   const connectFn = useServerFn(connectInstance);
   const logoutFn  = useServerFn(logoutInstance);
   const contactsFn = useServerFn(fetchContacts);
-  const [cwState, setCwState] = useState<{ ok: boolean; error?: string } | null>(null);
-  const [cwSyncing, setCwSyncing] = useState(false);
 
   const [waState, setWaState] = useState<{ connected: boolean; state: string; error?: string }>({ connected: false, state: "loading" });
   const [qr, setQr] = useState<string | null>(null);
